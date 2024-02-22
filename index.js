@@ -8,6 +8,10 @@ let addresses = [
   "100 Broadway Av",
   "Calle Sagasta, 26",
   "Calle 44 No 1991",
+  "4 de novembro, 28",
+  "15th avenue, 1000",
+  "May 5th no 78",
+  "Rua 5, 25",
 ];
 
 let address = {
@@ -64,6 +68,13 @@ function twoNumberAddress(addressArray, analysedArray) {
   address.number = addressArray.slice(analysedArray.number1Index + 1).join(" ");
 }
 
+function twoNumberNationalAddress(addressArray, analysedArray) {
+  address.street = addressArray
+    .slice(analysedArray.number1Index, analysedArray.number2Index)
+    .join(" ");
+  address.number = addressArray.slice(analysedArray.number2Index).join(" ");
+}
+
 //Utiliza o conhecimento do index para cortar o array no número da casa e o que vier após
 function nationalAddress(addressArray, analysedArray) {
   address.street = addressArray.slice(0, analysedArray.number1Index).join(" ");
@@ -97,11 +108,13 @@ for (let i = 0; i < addresses.length; i++) {
   if (!mockAnalysedArray.hasTwoNumber && mockAnalysedArray.number1Index !== 0) {
     nationalAddress(splitAddress, mockAnalysedArray);
   }
-
   if (address.street.match(/\s$/)) {
     //Retirada de espaços vazios ao fim das strings
     let tempStr = address.street.replace(/\s$/, "");
     address.street = tempStr;
+  }
+  if (mockAnalysedArray.hasTwoNumber && mockAnalysedArray.number1Index === 0) {
+    twoNumberNationalAddress(splitAddress, mockAnalysedArray);
   }
 
   console.log(address);
